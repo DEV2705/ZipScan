@@ -3,7 +3,8 @@ import axios from 'axios';
 // ✅ Make sure this matches your Django server
 // const API_BASE_URL = 'http://192.168.0.107:5173/api';
 // services/api.js
-const API_BASE_URL = 'http://192.168.0.107:8000/api';
+// const API_BASE_URL = 'http://192.168.0.107:8000/api';
+const API_BASE_URL = "http://127.0.0.1:8000/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -108,6 +109,12 @@ export const authAPI = {
     forgotPassword: (data) => api.post('/auth/forgot-password/', data),
     verifyResetCode: (data) => api.post('/auth/verify-reset-code/', data),
     resetPassword: (data) => api.post('/auth/reset-password/', data),
+    
+    // ✅ BLOG API FUNCTIONS
+    get: (url) => api.get(url),
+    post: (url, data) => api.post(url, data),
+    patch: (url, data) => api.patch(url, data),
+    delete: (url) => api.delete(url),
 };
 
 

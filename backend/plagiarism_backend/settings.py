@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'authentication',
     'plagiarism_check',
     'project_analysis',
+    'blog',
 ]
 
 # Custom User Model
@@ -158,7 +159,7 @@ SIMPLE_JWT = {
 }
 
 # ==================================
-# REST FRAMEWORK SETTINGS (Updated for JWT)
+# REST FRAMEWORK SETTINGS 
 # ==================================
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

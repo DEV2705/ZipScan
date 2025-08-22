@@ -18,6 +18,7 @@ urlpatterns = [
     path('api/auth/', include('authentication.urls')),
     path('api/plagiarism/', include('plagiarism_check.urls')),
     path('api/analysis/', include('project_analysis.urls')),
+    path('api/blog/', include('blog.urls')),
 ]
 
 if settings.DEBUG:

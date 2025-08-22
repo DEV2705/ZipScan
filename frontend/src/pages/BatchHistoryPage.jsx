@@ -160,7 +160,11 @@ const BatchHistoryPage = () => {
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredBatches.map((batch, index) => {
-                const status = getPlagiarismStatus(batch.plagiarism_percentage || 0);
+                // Use summary.similarity_percentage if available (from Batch Result page), fallback to existing field
+                const similarity = (batch.summary && typeof batch.summary.similarity_percentage === 'number')
+                  ? batch.summary.similarity_percentage
+                  : (typeof batch.plagiarism_percentage === 'number' ? batch.plagiarism_percentage : 0);
+                const status = getPlagiarismStatus(similarity || 0);
                 return (
                   <motion.div 
                     key={batch.id} 
@@ -214,21 +218,21 @@ const BatchHistoryPage = () => {
                       </div>
                     </div>
 
-                    {/* Similarity Rate */}
+                    {/* Similarity Rate (aligned with Batch Result page) */}
                     <div className="mb-4">
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-medium text-gray-300">Similarity Rate</span>
                         <span className={`text-sm font-semibold ${status.color}`}>
-                          {batch.plagiarism_percentage || 0}%
+                          {similarity || 0}%
                         </span>
                       </div>
                       <div className="w-full bg-white/10 rounded-full h-2">
                         <div 
                           className={`h-2 rounded-full transition-all duration-300 ${
-                            batch.plagiarism_percentage > 70 ? 'bg-red-500' :
-                            batch.plagiarism_percentage > 40 ? 'bg-yellow-500' : 'bg-green-500'
+                            similarity > 70 ? 'bg-red-500' :
+                            similarity > 40 ? 'bg-yellow-500' : 'bg-green-500'
                           }`}
-                          style={{ width: `${Math.min(batch.plagiarism_percentage || 0, 100)}%` }}
+                          style={{ width: `${Math.min(similarity || 0, 100)}%` }}
                         ></div>
                       </div>
                     </div>

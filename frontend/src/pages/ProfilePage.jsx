@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { User, Edit3, Save, X, Upload, Calendar, BarChart3, FileText, Eye, ArrowLeft } from 'lucide-react';
+import { User, Edit3, Save, X, Upload, Calendar, BarChart3, FileText, Eye, ArrowLeft, MessageSquare } from 'lucide-react';
 import { analysisAPI, plagiarismAPI, authAPI } from '../services/api';
 import Alert from '../components/Alert';
 import Loading from '../components/Loading';
@@ -29,9 +29,11 @@ const ProfilePage = () => {
     // User activity data
     const [userProjects, setUserProjects] = useState([]);
     const [userBatches, setUserBatches] = useState([]);
+    const [userBlogs, setUserBlogs] = useState([]);
     const [activityStats, setActivityStats] = useState({
         totalProjects: 0,
         totalBatches: 0,
+        totalBlogs: 0,
         lastActivity: null,
         joinedDate: user?.date_joined
     });
@@ -41,23 +43,17 @@ const ProfilePage = () => {
             navigate('/login');
         } else {
             fetchUserActivity();
+            fetchUserBlogs();
             refetchUserProfile();
         }
     }, [isAuthenticated]);
-
-    // Debug log to check user data
-    useEffect(() => {
-        console.log('User object:', user);
-        console.log('User date_joined:', user?.date_joined);
-        console.log('Type of date_joined:', typeof user?.date_joined);
-    }, [user]);
 
     // Refresh data when window gets focus (after upload)
     useEffect(() => {
         const handleFocus = () => {
             if (isAuthenticated) {
-                console.log('Window focused, refreshing data...');
                 fetchUserActivity();
+                fetchUserBlogs();
                 refetchUserProfile();
             }
         };
@@ -66,6 +62,20 @@ const ProfilePage = () => {
         return () => window.removeEventListener('focus', handleFocus);
     }, [isAuthenticated]);
 
+    // Fetch user's own blogs
+    const fetchUserBlogs = async () => {
+        try {
+            const response = await authAPI.get('/blog/posts/');
+            const all = response.data.results || response.data || [];
+            const mine = (all || []).filter(p => p.author === user?.id);
+            const sorted = [...mine].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            setUserBlogs(sorted);
+            setActivityStats(prev => ({ ...prev, totalBlogs: sorted.length }));
+        } catch (err) {
+            console.error('Failed to fetch user blogs:', err);
+        }
+    };
+
     // ✅ Updated fetchUserActivity using the same logic as BatchHistoryPage and ProjectHistoryPage
     const fetchUserActivity = async () => {
         try {
@@ -73,27 +83,15 @@ const ProfilePage = () => {
 
             if (user?.role === 'student') {
                 const response = await analysisAPI.getProjects();
-                console.log('Fetched projects response:', response.data);
-
-                // ✅ Handle both response formats like in ProjectHistoryPage
                 let projectsArray = [];
                 if (response.data.results) {
-                    // Paginated response format
                     projectsArray = response.data.results.projects || [];
                 } else {
-                    // Direct response format
                     projectsArray = response.data.projects || response.data || [];
                 }
-
-                console.log('Projects array:', projectsArray);
-
-                // ✅ Sort projects by upload date (newest first)
                 const sortedProjects = [...projectsArray].sort(
                     (a, b) => new Date(b.uploaded_at) - new Date(a.uploaded_at)
                 );
-
-                console.log('Sorted projects:', sortedProjects);
-
                 setUserProjects(sortedProjects);
                 setActivityStats(prev => ({
                     ...prev,
@@ -102,27 +100,15 @@ const ProfilePage = () => {
 
             } else if (user?.role === 'faculty') {
                 const response = await plagiarismAPI.getBatches();
-                console.log('Fetched batches response:', response.data);
-
-                // ✅ Handle both response formats like in BatchHistoryPage
                 let batchesArray = [];
                 if (response.data.results) {
-                    // Paginated response format
                     batchesArray = response.data.results.batches || [];
                 } else {
-                    // Direct response format
                     batchesArray = response.data.batches || response.data || [];
                 }
-
-                console.log('Batches array:', batchesArray);
-
-                // ✅ Sort batches by upload date (newest first)
                 const sortedBatches = [...batchesArray].sort(
                     (a, b) => new Date(b.uploaded_at) - new Date(a.uploaded_at)
                 );
-
-                console.log('Sorted batches:', sortedBatches);
-
                 setUserBatches(sortedBatches);
                 setActivityStats(prev => ({
                     ...prev,
@@ -503,53 +489,40 @@ const ProfilePage = () => {
                     </motion.div>
 
                     <motion.div {...fadeInUp} transition={{ delay: 0.2 }} className="lg:col-span-2 space-y-8">
+                        {/* Stats Cards */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6 text-center">
-                                <div className="text-2xl font-bold text-blue-400 mb-2">
-                                    {user?.role === 'student' ? activityStats.totalProjects : activityStats.totalBatches}
-                                </div>
-                                <div className="text-sm text-gray-400">
-                                    {user?.role === 'student' ? 'Projects Submitted' : 'Batches Analyzed'}
-                                </div>
+                                <div className="text-2xl font-bold text-blue-400 mb-2">{user?.role === 'student' ? activityStats.totalProjects : activityStats.totalBatches}</div>
+                                <div className="text-sm text-gray-400">{user?.role === 'student' ? 'Projects Submitted' : 'Batches Analyzed'}</div>
+                            </div>
+
+                            {/* Replaced Success Rate with Blog Count */}
+                            <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6 text-center">
+                                <div className="text-2xl font-bold text-green-400 mb-2">{activityStats.totalBlogs}</div>
+                                <div className="text-sm text-gray-400">Blogs Published</div>
                             </div>
 
                             <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6 text-center">
-                                <div className="text-2xl font-bold text-green-400 mb-2">
-                                    {Math.floor(Math.random() * 50) + 50}%
-                                </div>
-                                <div className="text-sm text-gray-400">Success Rate</div>
-                            </div>
-
-                            <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6 text-center">
-                                <div className="text-2xl font-bold text-purple-400 mb-2">
-                                    {user?.is_email_verified ? '✓ Active' : '⚠️ Pending'}
-                                </div>
+                                <div className="text-2xl font-bold text-purple-400 mb-2">{user?.is_email_verified ? '✓ Active' : '⚠️ Pending'}</div>
                                 <div className="text-sm text-gray-400">Account Status</div>
                             </div>
-
                         </div>
 
+                        {/* Side-by-side: History and My Blogs */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
                         {/* History Section */}
-                        <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6">
-                            {/* ✅ Header with History title on left and View All button on right */}
+                        <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6 h-full flex flex-col">
                             <div className="flex items-center justify-between mb-4">
                                 <h3 className="text-xl font-bold mb-4 flex items-center">
                                     <Calendar className="h-5 w-5 mr-2 text-green-400" />
                                     Recent Projects
                                 </h3>
-                                {/* ✅ View All History button moved to top right */}
-                                {((user?.role === 'student' && userProjects.length > 0) ||
-                                    (user?.role === 'faculty' && userBatches.length > 0)) && (
-                                        <button
-                                            onClick={() => navigate(user?.role === 'student' ? '/student/history' : '/faculty/history')}
-                                            className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
-                                        >
-                                            View All History
-                                        </button>
-                                    )}
+                                {((user?.role === 'student' && userProjects.length > 0) || (user?.role === 'faculty' && userBatches.length > 0)) && (
+                                    <button onClick={() => navigate(user?.role === 'student' ? '/student/history' : '/faculty/history')} className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors">View All History</button>
+                                )}
                             </div>
 
-                            <div className="space-y-4">
+                            <div className="space-y-4 flex-1">
                                 {user?.role === 'student' ? (
                                     userProjects.slice(0, 3).map((project, index) => (
                                         <div key={project.id || index} className="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
@@ -557,15 +530,10 @@ const ProfilePage = () => {
                                                 <FileText className="w-5 h-5 text-blue-400" />
                                                 <div>
                                                     <h4 className="text-white font-medium">{project.project_name}</h4>
-                                                    <p className="text-gray-400 text-sm">
-                                                        Uploaded: {new Date(project.uploaded_at).toLocaleDateString()}
-                                                    </p>
+                                                    <p className="text-gray-400 text-sm">Uploaded: {new Date(project.uploaded_at).toLocaleDateString()}</p>
                                                 </div>
                                             </div>
-                                            <button
-                                                onClick={() => navigate(`/student/results/${project.id}`)}
-                                                className="flex items-center space-x-2 px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg hover:bg-blue-500/30 transition-colors"
-                                            >
+                                            <button onClick={() => navigate(`/student/results/${project.id}`)} className="flex items-center space-x-2 px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg hover:bg-blue-500/30 transition-colors">
                                                 <Eye className="w-4 h-4" />
                                                 <span>View</span>
                                             </button>
@@ -578,54 +546,67 @@ const ProfilePage = () => {
                                                 <Upload className="w-5 h-5 text-purple-400" />
                                                 <div>
                                                     <h4 className="text-white font-medium">{batch.batch_name}</h4>
-                                                    <p className="text-gray-400 text-sm">
-                                                        Uploaded: {new Date(batch.uploaded_at).toLocaleDateString()} • {batch.total_projects} projects
-                                                    </p>
+                                                    <p className="text-gray-400 text-sm">Uploaded: {new Date(batch.uploaded_at).toLocaleDateString()} • {batch.total_projects} projects</p>
                                                 </div>
                                             </div>
-                                            <button
-                                                onClick={() => navigate(`/faculty/results/${batch.id}`)}
-                                                className="flex items-center space-x-2 px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg hover:bg-blue-500/30 transition-colors"
-                                            >
+                                            <button onClick={() => navigate(`/faculty/results/${batch.id}`)} className="flex items-center space-x-2 px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg hover:bg-blue-500/30 transition-colors">
                                                 <Eye className="w-4 h-4" />
                                                 <span>View</span>
                                             </button>
-
                                         </div>
-
                                     ))
                                 )}
 
-                                {/* No projects/batches message */}
-                                {((user?.role === 'student' && userProjects.length === 0) ||
-                                    (user?.role === 'faculty' && userBatches.length === 0)) && (
-                                        <div className="text-center py-8">
-                                            <BarChart3 className="w-12 h-12 text-gray-500 mx-auto mb-4" />
-                                            <p className="text-gray-400 mb-4">
-                                                No {user?.role === 'student' ? 'projects' : 'batches'} in history yet
-                                            </p>
-                                            <button
-                                                onClick={() => navigate(user?.role === 'student' ? '/student/upload' : '/faculty/upload')}
-                                                className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition duration-200"
-                                            >
-                                                {user?.role === 'student' ? 'Upload First Project' : 'Upload First Batch'}
-                                            </button>
-                                        </div>
-                                    )}
-
-                                {/* Show more link if there are more than 4 items
-                                {((user?.role === 'student' && userProjects.length > 4) ||
-                                    (user?.role === 'faculty' && userBatches.length > 4)) && (
-                                        <div className="text-center pt-4 border-t border-white/10">
-                                            <button
-                                                onClick={() => navigate(user?.role === 'student' ? '/student/history' : '/faculty/history')}
-                                                className="text-blue-400 hover:text-blue-300 text-sm font-medium"
-                                            >
-                                                View All History →
-                                            </button>
-                                        </div>
-                                    )} */}
+                                {((user?.role === 'student' && userProjects.length === 0) || (user?.role === 'faculty' && userBatches.length === 0)) && (
+                                    <div className="text-center py-8">
+                                        <BarChart3 className="w-12 h-12 text-gray-500 mx-auto mb-4" />
+                                        <p className="text-gray-400 mb-4">No {user?.role === 'student' ? 'projects' : 'batches'} in history yet</p>
+                                        <button onClick={() => navigate(user?.role === 'student' ? '/student/upload' : '/faculty/upload')} className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition duration-200">
+                                            {user?.role === 'student' ? 'Upload First Project' : 'Upload First Batch'}
+                                        </button>
+                                    </div>
+                                )}
                             </div>
+                        </div>
+
+                        {/* My Blogs Section */}
+                        <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6 h-full flex flex-col">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="text-xl font-bold mb-4 flex items-center">
+                                    <MessageSquare className="h-5 w-5 mr-2 text-blue-400" />
+                                    My Recent Blogs
+                                </h3>
+                                {userBlogs.length > 0 && (
+                                    <button onClick={() => navigate('/blog')} className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors">View All Blogs</button>
+                                )}
+                            </div>
+
+                            <div className="space-y-4 flex-1">
+                                {userBlogs.slice(0, 3).map((post) => (
+                                    <div key={post.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">
+                                        <div className="flex items-center space-x-3">
+                                            <MessageSquare className="w-5 h-5 text-blue-400" />
+                                            <div>
+                                                <h4 className="text-white font-medium line-clamp-1">{post.title}</h4>
+                                                <p className="text-gray-400 text-sm">Published: {new Date(post.created_at).toLocaleDateString()}</p>
+                                            </div>
+                                        </div>
+                                        <button onClick={() => navigate('/blog')} className="flex items-center space-x-2 px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg hover:bg-blue-500/30 transition-colors">
+                                            <Eye className="w-4 h-4" />
+                                            <span>Open</span>
+                                        </button>
+                                    </div>
+                                ))}
+
+                                {userBlogs.length === 0 && (
+                                    <div className="text-center py-8">
+                                        <MessageSquare className="w-12 h-12 text-gray-500 mx-auto mb-4" />
+                                        <p className="text-gray-400 mb-4">No blogs published yet</p>
+                                        <button onClick={() => navigate('/blog')} className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition duration-200">Write Your First Blog</button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                         </div>
                     </motion.div>
                 </div>
