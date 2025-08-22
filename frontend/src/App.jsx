@@ -24,12 +24,7 @@ import ProjectHistoryPage from './pages/ProjectHistoryPage';
 import Landing from './components/CodeNestLanding.jsx';
 
 // Import your NEW pages
-import PricingPage from './pages/PricingPage';
-import ContactPage from './pages/ContactPage';
 import BlogPage from './pages/BlogPage';
-import FeaturesPage from './pages/FeaturesPage';
-import FacultyDashboard from './pages/FacultyDashboard';
-import StudentDashboard from './pages/StudentDashboard';
 import ProfilePage from './pages/ProfilePage';
 
 
@@ -82,12 +77,7 @@ const AppRoutes = () => {
           } />
 
 
-          <Route path="/pricing" element={<PricingPage />} />
           <Route path="/blog" element={<BlogPage />} />
-          <Route path="/features" element={<FeaturesPage />} />
-          <Route path="/faculty-dashboard" element={<FacultyDashboard />} />
-          <Route path="/student-dashboard" element={<StudentDashboard />} />
-          <Route path="/contact" element={<ContactPage />} /> {/* ← Add this route */}
           <Route path="/profile" element={
             <ProtectedRoute>
               <ProfilePage />
