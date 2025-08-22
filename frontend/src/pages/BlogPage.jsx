@@ -286,7 +286,7 @@ const BlogPage = () => {
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
-                  </div>
+                </div>
                 )}
               </div>
 
@@ -318,7 +318,7 @@ const BlogPage = () => {
                 <div className="flex items-center text-xs text-gray-400">
                   <Calendar className="w-3.5 h-3.5 mr-1.5" />
                   <span>{formatDate(post.created_at)}</span>
-                </div>
+              </div>
 
                 {/* Read more CTA */}
                 <div className="flex items-center justify-end text-blue-400 group-hover:text-blue-300 transition-colors text-xs font-medium pt-1">
@@ -405,8 +405,8 @@ const BlogPage = () => {
                 </div>
               </div>
             </div>
-          </motion.div>
-        </div>
+        </motion.div>
+      </div>
       )}
     </div>
   );

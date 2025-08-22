@@ -160,11 +160,18 @@ const AnalysisResultPage = () => {
                   {project.tech_stack.map((tech, index) => (
                     <motion.div 
                       key={index} 
-                      className="flex items-center p-4 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 transition-all duration-200"
+                      className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 transition-all duration-200"
                       whileHover={{ scale: 1.02 }}
                     >
-                      <TechStackIcon tech={tech} />
-                      <span className="font-medium text-white">{tech}</span>
+                      <div className="flex items-center">
+                        <TechStackIcon tech={tech} />
+                        <span className="font-medium text-white">{tech}</span>
+                      </div>
+                      {project?.tech_stack_confidence && project.tech_stack_confidence[tech] !== undefined && (
+                        <span className="ml-3 px-2 py-1 text-xs rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                          Confidence: {project.tech_stack_confidence[tech]}
+                        </span>
+                      )}
                     </motion.div>
                   ))}
                 </div>
@@ -204,13 +211,15 @@ const AnalysisResultPage = () => {
                   </div>
                   {project.file_stats.largest_files && project.file_stats.largest_files.length > 0 && (
                     <div className="pt-4 border-t border-white/10">
-                      <span className="text-gray-400 text-sm">Largest File</span>
-                      <p className="font-medium text-sm text-white">
-                        {project.file_stats.largest_files[0].name} 
-                        <span className="text-gray-400 ml-1">
-                          ({project.file_stats.largest_files.size_kb} KB)
-                        </span>
-                      </p>
+                      <span className="text-gray-400 text-sm">Largest Files</span>
+                      <ul className="mt-2 space-y-1">
+                        {project.file_stats.largest_files.slice(0, 3).map((f, i) => (
+                          <li key={i} className="flex items-center justify-between text-sm">
+                            <span className="text-white truncate pr-2">{f.name}</span>
+                            <span className="text-gray-400">{f.size_kb} KB</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )}
                 </div>
@@ -219,7 +228,7 @@ const AnalysisResultPage = () => {
           </motion.div>
         </div>
 
-        {/* Libraries and Features */}
+        {/* Libraries, Features, and Analysis Details */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
           
           {/* Libraries */}
@@ -268,6 +277,70 @@ const AnalysisResultPage = () => {
             </div>
           </motion.div>
         </div>
+
+        {/* Analysis Details */}
+        {(project?.analysis_details || project?.tech_stack_confidence) && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+            {/* Dependency-based Frameworks */}
+            <motion.div {...fadeInUp} transition={{ delay: 0.5 }}>
+              <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-8 h-full">
+                <div className="flex items-center mb-6">
+                  <Package className="w-6 h-6 text-orange-400 mr-3" />
+                  <h2 className="text-lg font-semibold text-white">Frameworks (Dependencies)</h2>
+                </div>
+                {project?.analysis_details?.dependency_analysis?.frameworks?.length ? (
+                  <div className="flex flex-wrap gap-2">
+                    {[...project.analysis_details.dependency_analysis.frameworks].map((fw, i) => (
+                      <span key={i} className="px-2 py-1 text-xs rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/30">{fw}</span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-400 text-sm">No frameworks inferred from dependency files</p>
+                )}
+              </div>
+            </motion.div>
+
+            {/* Content-based Frameworks */}
+            <motion.div {...fadeInUp} transition={{ delay: 0.6 }}>
+              <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-8 h-full">
+                <div className="flex items-center mb-6">
+                  <Layers className="w-6 h-6 text-cyan-400 mr-3" />
+                  <h2 className="text-lg font-semibold text-white">Frameworks (Content)</h2>
+                </div>
+                {project?.analysis_details?.content_analysis?.frameworks?.length ? (
+                  <div className="flex flex-wrap gap-2">
+                    {[...project.analysis_details.content_analysis.frameworks].map((fw, i) => (
+                      <span key={i} className="px-2 py-1 text-xs rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">{fw}</span>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-400 text-sm">No frameworks inferred from code contents</p>
+                )}
+              </div>
+            </motion.div>
+
+            {/* Libraries (from dependencies) */}
+            <motion.div {...fadeInUp} transition={{ delay: 0.7 }}>
+              <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-8 h-full">
+                <div className="flex items-center mb-6">
+                  <Package className="w-6 h-6 text-orange-400 mr-3" />
+                  <h2 className="text-lg font-semibold text-white">Dependency Libraries</h2>
+                </div>
+                {project?.analysis_details?.dependency_analysis?.libraries?.length ? (
+                  <div className="space-y-2 max-h-60 overflow-y-auto">
+                    {project.analysis_details.dependency_analysis.libraries.map((lib, i) => (
+                      <div key={i} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5">
+                        <span className="font-medium text-white text-sm">{lib}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-400 text-sm">No dependency libraries detected</p>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
 
         {/* Action Buttons */}
         <motion.div {...fadeInUp} transition={{ delay: 0.5 }} className="mt-12 flex justify-center space-x-4">
