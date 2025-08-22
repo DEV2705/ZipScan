@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Check,
+Check,
   Mail, 
   Phone, 
   MapPin, 
@@ -44,15 +44,16 @@ const Landing = () => {
       const sections = [
         { id: 'hero', ref: heroRef },
         { id: 'features', ref: featuresRef },
+        { id: 'contact', ref: contactRef },
         { id: 'faculty', ref: facultyRef },
-        { id: 'student', ref: studentRef },
-        { id: 'contact', ref: contactRef }
+        { id: 'student', ref: studentRef }
       ];
 
       const currentSection = sections.find(section => {
         if (section.ref.current) {
           const rect = section.ref.current.getBoundingClientRect();
-          return rect.top <= 200 && rect.bottom >= 200;
+          // Account for header height (approximately 80px) and some buffer
+          return rect.top <= 120 && rect.bottom >= 120;
         }
         return false;
       });
@@ -82,13 +83,9 @@ const Landing = () => {
 
     const ref = sectionRefs[sectionId];
     if (ref?.current) {
-      const headerHeight = 80;
-      const elementPosition = ref.current.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
+      ref.current.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
       });
     }
   };
@@ -128,6 +125,8 @@ const Landing = () => {
     }
   ];
 
+
+
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
     animate: { opacity: 1, y: 0 },
@@ -135,12 +134,9 @@ const Landing = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-x-hidden">
-      {/* Fixed header padding */}
-      <div className="h-20"></div>
-
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden">
       {/* Animated Background */}
-      <div className="fixed inset-0 z-0">
+      <div className="absolute inset-0">
         <motion.div
           className="absolute inset-0 opacity-30"
           style={{
@@ -158,7 +154,7 @@ const Landing = () => {
       </div>
 
       {/* Navigation with Scroll Spy */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-white/10">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
@@ -184,6 +180,16 @@ const Landing = () => {
                 }`}
               >
                 Features
+              </button>
+              <button
+                onClick={() => scrollToSection('pricing')}
+                className={`transition-colors ${
+                  activeSection === 'pricing' 
+                    ? 'text-blue-400' 
+                    : 'text-gray-300 hover:text-white'
+                }`}
+              >
+                Pricing
               </button>
               <button
                 onClick={() => scrollToSection('faculty')}
@@ -247,7 +253,7 @@ const Landing = () => {
 
       {/* Scroll Progress Bar */}
       <motion.div
-        className="fixed top-20 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-600 z-50"
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-600 z-50"
         style={{ scaleX: scrollYProgress, transformOrigin: '0%' }}
       />
 
@@ -276,7 +282,7 @@ const Landing = () => {
       </motion.div>
 
       {/* Hero Section */}
-      <section ref={heroRef} id="hero" className="relative z-10 min-h-screen flex items-center justify-center px-6">
+      <section ref={heroRef} id="hero" className="relative z-10 flex items-center justify-center min-h-screen px-6">
         <div className="max-w-6xl mx-auto text-center">
           <motion.div
             className="mb-8"
@@ -285,12 +291,12 @@ const Landing = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full text-sm font-medium text-blue-300 border border-blue-500/30 mb-8">
-              ✨ AI-Powered Code Analysis
+              âœ¨ AI-Powered Code Analysis
             </span>
           </motion.div>
 
           <motion.h1
-            className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-8"
+            className="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-tight mb-8"
             {...fadeInUp}
             transition={{ ...fadeInUp.transition, delay: 0.3 }}
           >
@@ -303,7 +309,7 @@ const Landing = () => {
           </motion.h1>
 
           <motion.p
-            className="text-lg md:text-xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed"
+            className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed"
             {...fadeInUp}
             transition={{ ...fadeInUp.transition, delay: 0.5 }}
           >
@@ -341,6 +347,27 @@ const Landing = () => {
             </motion.button>
           </motion.div>
 
+          {/* Stats */}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.9 }}
+          >
+            {/* <div className="text-center">
+              <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">99%</div>
+              <div className="text-gray-400 text-sm">Accuracy Rate</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">10k+</div>
+              <div className="text-gray-400 text-sm">Projects Analyzed</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">500+</div>
+              <div className="text-gray-400 text-sm">Institutions</div>
+            </div> */}
+          </motion.div>
+
           {/* Scroll Indicator */}
           <motion.div
             className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
@@ -361,7 +388,7 @@ const Landing = () => {
       </section>
 
       {/* Features Section */}
-      <section ref={featuresRef} id="features" className="relative z-10 py-24 px-6">
+      <section ref={featuresRef} id="features" className="relative z-10 py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="text-center mb-16"
@@ -403,8 +430,10 @@ const Landing = () => {
         </div>
       </section>
 
+
+
       {/* Faculty Section */}
-      <section ref={facultyRef} id="faculty" className="relative z-10 py-24 px-6">
+      <section ref={facultyRef} id="faculty" className="relative z-10 py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="text-center mb-16"
@@ -517,7 +546,7 @@ const Landing = () => {
       </section>
 
       {/* Student Section */}
-      <section ref={studentRef} id="student" className="relative z-10 py-24 px-6">
+      <section ref={studentRef} id="student" className="relative z-10 py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="text-center mb-16"
@@ -631,7 +660,7 @@ const Landing = () => {
       </section>
 
       {/* Contact Section */}
-      <section ref={contactRef} id="contact" className="relative z-10 py-24 px-6">
+      <section ref={contactRef} id="contact" className="relative z-10 py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="text-center mb-16"
@@ -693,13 +722,13 @@ const Landing = () => {
                 <h4 className="font-semibold mb-4">Follow Us</h4>
                 <div className="flex space-x-4">
                   <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer">
-                    <span className="text-lg">📘</span>
+                    <span className="text-lg">ðŸ“˜</span>
                   </div>
                   <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer">
-                    <span className="text-lg">🐦</span>
+                    <span className="text-lg">ðŸ¦</span>
                   </div>
                   <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer">
-                    <span className="text-lg">💼</span>
+                    <span className="text-lg">ðŸ’¼</span>
                   </div>
                 </div>
               </div>
@@ -768,7 +797,7 @@ const Landing = () => {
       </section>
 
       {/* Final CTA Section */}
-      <section className="relative z-10 py-24 px-6">
+      <section className="relative z-10 py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
