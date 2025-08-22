@@ -12,6 +12,9 @@ Check,
   GraduationCap,
   BookOpen,
   Shield,
+  Twitter,
+  Facebook,
+  Linkedin,
   Zap,
   BarChart3,
   Globe,
@@ -40,28 +43,30 @@ const Landing = () => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
-    const handleScroll = () => {
-      const sections = [
-        { id: 'hero', ref: heroRef },
-        { id: 'features', ref: featuresRef },
-        { id: 'contact', ref: contactRef },
-        { id: 'faculty', ref: facultyRef },
-        { id: 'student', ref: studentRef }
-      ];
+         const handleScroll = () => {
+       const sections = [
+         { id: 'hero', ref: heroRef },
+         { id: 'features', ref: featuresRef },
+         { id: 'faculty', ref: facultyRef },
+         { id: 'student', ref: studentRef },
+         { id: 'contact', ref: contactRef }
+       ];
 
-      const currentSection = sections.find(section => {
-        if (section.ref.current) {
-          const rect = section.ref.current.getBoundingClientRect();
-          // Account for header height (approximately 80px) and some buffer
-          return rect.top <= 120 && rect.bottom >= 120;
-        }
-        return false;
-      });
+       const currentSection = sections.find(section => {
+         if (section.ref.current) {
+           const rect = section.ref.current.getBoundingClientRect();
+           // Account for header height and provide better buffer for section detection
+           const headerHeight = 80;
+           const buffer = 100; // Increased buffer for better section detection
+           return rect.top <= headerHeight + buffer && rect.bottom >= headerHeight + buffer;
+         }
+         return false;
+       });
 
-      if (currentSection) {
-        setActiveSection(currentSection.id);
-      }
-    };
+       if (currentSection) {
+         setActiveSection(currentSection.id);
+       }
+     };
 
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
@@ -80,15 +85,20 @@ const Landing = () => {
       faculty: facultyRef,
       student: studentRef
     };
-
+  
     const ref = sectionRefs[sectionId];
     if (ref?.current) {
-      ref.current.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
+      const headerHeight = document.querySelector("header")?.offsetHeight || 80; 
+      const elementTop = ref.current.offsetTop;
+      const offsetPosition = elementTop - headerHeight; // precise offset
+  
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
       });
     }
   };
+  
 
   const handleStartTrial = () => {
     if (!isAuthenticated) {
@@ -181,16 +191,7 @@ const Landing = () => {
               >
                 Features
               </button>
-              <button
-                onClick={() => scrollToSection('pricing')}
-                className={`transition-colors ${
-                  activeSection === 'pricing' 
-                    ? 'text-blue-400' 
-                    : 'text-gray-300 hover:text-white'
-                }`}
-              >
-                Pricing
-              </button>
+              
               <button
                 onClick={() => scrollToSection('faculty')}
                 className={`transition-colors ${
@@ -291,7 +292,7 @@ const Landing = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full text-sm font-medium text-blue-300 border border-blue-500/30 mb-8">
-              âœ¨ AI-Powered Code Analysis
+              AI-Powered Code Analysis
             </span>
           </motion.div>
 
@@ -370,7 +371,7 @@ const Landing = () => {
 
           {/* Scroll Indicator */}
           <motion.div
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+            className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2 }}
@@ -381,15 +382,15 @@ const Landing = () => {
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              <ChevronDown className="w-6 h-6" />
+              <ChevronDown className="w-6 h-5" />
             </motion.button>
           </motion.div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section ref={featuresRef} id="features" className="relative z-10 py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+      <section ref={featuresRef} id="features" className="relative z-10 py-20 px-6 min-h-screen flex items-center">
+        <div className="max-w-6xl mx-auto w-full">
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
@@ -397,35 +398,37 @@ const Landing = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
               Why Choose{' '}
               <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
                 CodeNest?
               </span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
               Advanced features designed for modern academic integrity
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                className="group p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300 hover:bg-white/10"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -5 }}
-              >
-                <div className="text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-300">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-400">{feature.description}</p>
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                         {features.map((feature, index) => (
+               <motion.div
+                 key={index}
+                 className="group p-8 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm rounded-3xl border border-white/20 hover:border-blue-500/30 transition-all duration-300 hover:bg-gradient-to-br hover:from-blue-500/10 hover:to-purple-500/10 hover:shadow-2xl hover:shadow-blue-500/20"
+                 initial={{ opacity: 0, y: 30 }}
+                 whileInView={{ opacity: 1, y: 0 }}
+                 transition={{ duration: 0.6, delay: index * 0.1 }}
+                 viewport={{ once: true }}
+                 whileHover={{ y: -8, scale: 1.02 }}
+               >
+                 <div className="text-blue-400 mb-6 group-hover:scale-110 transition-transform duration-300 flex justify-center">
+                   <div className="p-4 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl border border-blue-500/30">
+                     {feature.icon}
+                   </div>
+                 </div>
+                 <h3 className="text-2xl font-bold mb-4 text-center">{feature.title}</h3>
+                 <p className="text-gray-300 text-center leading-relaxed">{feature.description}</p>
+               </motion.div>
+             ))}
           </div>
         </div>
       </section>
@@ -433,71 +436,77 @@ const Landing = () => {
 
 
       {/* Faculty Section */}
-      <section ref={facultyRef} id="faculty" className="relative z-10 py-20 px-6">
+      <section ref={facultyRef} id="faculty" className="relative z-10 pt-24 pb-16 px-6">
         <div className="max-w-6xl mx-auto">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-6"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            {/* <h2 className="text-2xl md:text-3xl font-bold mb-2">
+              For{' '}
+              <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                Educators
+              </span>
+            </h2> */}
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
               For{' '}
               <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
                 Educators
               </span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="text-base text-gray-300 max-w-2xl mx-auto">
               Streamline your academic integrity workflow with powerful tools designed for institutions
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-3xl font-bold mb-6">Why Choose Faculty Account?</h3>
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Users className="w-6 h-6 text-blue-400" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-2">Batch Processing</h4>
-                    <p className="text-gray-400">Upload and analyze multiple projects simultaneously, saving hours of manual work. Perfect for grading entire classes.</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <BarChart3 className="w-6 h-6 text-purple-400" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-2">Advanced Analytics</h4>
-                    <p className="text-gray-400">Comprehensive reports with detailed insights, similarity scores, and trend analysis across all submissions.</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Shield className="w-6 h-6 text-cyan-400" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-2">Enterprise Security</h4>
-                    <p className="text-gray-400">Bank-level security with role-based access control, audit trails, and FERPA compliance.</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Zap className="w-6 h-6 text-green-400" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-2">Lightning Fast</h4>
-                    <p className="text-gray-400">AI-powered analysis that processes projects in seconds, not minutes. Get results instantly.</p>
-                  </div>
-                </div>
+                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+             <motion.div
+               initial={{ opacity: 0, x: -30 }}
+               whileInView={{ opacity: 1, x: 0 }}
+               transition={{ duration: 0.6 }}
+               viewport={{ once: true }}
+             >
+               <h3 className="text-2xl font-bold mb-4">Why Choose Faculty Account?</h3>
+               <div className="space-y-4">
+                                 <div className="flex items-start space-x-3">
+                   <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                     <Users className="w-5 h-5 text-blue-400" />
+                   </div>
+                   <div>
+                     <h4 className="text-lg font-semibold mb-1">Batch Processing</h4>
+                     <p className="text-gray-400 text-sm">Upload and analyze multiple projects simultaneously, saving hours of manual work.</p>
+                   </div>
+                 </div>
+                 <div className="flex items-start space-x-3">
+                   <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                     <BarChart3 className="w-5 h-5 text-purple-400" />
+                   </div>
+                   <div>
+                     <h4 className="text-lg font-semibold mb-1">Advanced Analytics</h4>
+                     <p className="text-gray-400 text-sm">Comprehensive reports with detailed insights and similarity scores.</p>
+                   </div>
+                 </div>
+                 {/* <div className="flex items-start space-x-3">
+                   <div className="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                     <Shield className="w-5 h-5 text-cyan-400" />
+                   </div>
+                   <div>
+                     <h4 className="text-lg font-semibold mb-1">Enterprise Security</h4>
+                     <p className="text-gray-400 text-sm">Bank-level security with role-based access control and FERPA compliance.</p>
+                   </div>
+                 </div> */}
+                 <div className="flex items-start space-x-3">
+                   <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                     <Zap className="w-5 h-5 text-green-400" />
+                   </div>
+                   <div>
+                     <h4 className="text-lg font-semibold mb-1">Lightning Fast</h4>
+                     <p className="text-gray-400 text-sm">AI-powered analysis that processes projects in seconds, not minutes.</p>
+                   </div>
+                 </div>
               </div>
             </motion.div>
 
@@ -508,65 +517,65 @@ const Landing = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl p-8 border border-blue-500/30">
-                <div className="text-center mb-6">
-                  <GraduationCap className="w-16 h-16 text-blue-400 mx-auto mb-4" />
-                  <h4 className="text-2xl font-bold mb-2">How to Upload & Analyze</h4>
-                  <p className="text-gray-300">Simple 3-step process for academic integrity</p>
-                </div>
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-3 p-3 bg-white/5 rounded-lg">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm">1</div>
-                    <span className="text-gray-300">Upload project files (ZIP, PDF, or code files)</span>
-                  </div>
-                  <div className="flex items-center space-x-3 p-3 bg-white/5 rounded-lg">
-                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">2</div>
-                    <span className="text-gray-300">AI analyzes for plagiarism and similarity</span>
-                  </div>
-                  <div className="flex items-center space-x-3 p-3 bg-white/5 rounded-lg">
-                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm">3</div>
-                    <span className="text-gray-300">Get detailed reports with actionable insights</span>
-                  </div>
-                </div>
-                <div className="mt-6 pt-4 border-t border-white/10">
-                  <div className="text-center">
-                    <p className="text-gray-400 text-sm mb-3">Ready to get started?</p>
-                    <button
-                      onClick={handleStartTrial}
-                      className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300"
-                    >
-                      Start Faculty Trial
-                    </button>
-                  </div>
-                </div>
-              </div>
+                             <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-xl p-6 border border-blue-500/30">
+                 <div className="text-center mb-4">
+                   <GraduationCap className="w-12 h-12 text-blue-400 mx-auto mb-3" />
+                   <h4 className="text-xl font-bold mb-2">How to Upload & Analyze</h4>
+                   <p className="text-gray-300 text-sm">Simple 3-step process for academic integrity</p>
+                 </div>
+                 <div className="space-y-3">
+                   <div className="flex items-center space-x-3 p-2 bg-white/5 rounded-lg">
+                     <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs">1</div>
+                     <span className="text-gray-300 text-sm">Upload project files (ZIP, PDF, or code files)</span>
+                   </div>
+                   <div className="flex items-center space-x-3 p-2 bg-white/5 rounded-lg">
+                     <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-xs">2</div>
+                     <span className="text-gray-300 text-sm">AI analyzes for plagiarism and similarity</span>
+                   </div>
+                   <div className="flex items-center space-x-3 p-2 bg-white/5 rounded-lg">
+                     <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-xs">3</div>
+                     <span className="text-gray-300 text-sm">Get detailed reports with actionable insights</span>
+                   </div>
+                 </div>
+                 <div className="mt-4 pt-3 border-t border-white/10">
+                   <div className="text-center">
+                     <p className="text-gray-400 text-xs mb-2">Ready to get started?</p>
+                     <button
+                       onClick={handleStartTrial}
+                       className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300 text-sm"
+                     >
+                       Start Faculty Trial
+                     </button>
+                   </div>
+                 </div>
+               </div>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Student Section */}
-      <section ref={studentRef} id="student" className="relative z-10 py-20 px-6">
+      <section ref={studentRef} id="student" className="relative z-10 pt-16 pb-8 px-6">
         <div className="max-w-6xl mx-auto">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-6"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
               For{' '}
               <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
                 Students
               </span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="text-base text-gray-300 max-w-2xl mx-auto">
               Ensure your work is original and learn best practices for academic integrity
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <motion.div
               className="relative order-2 lg:order-1"
               initial={{ opacity: 0, x: -30 }}
@@ -574,38 +583,38 @@ const Landing = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl p-8 border border-purple-500/30">
-                <div className="text-center mb-6">
-                  <BookOpen className="w-16 h-16 text-purple-400 mx-auto mb-4" />
-                  <h4 className="text-2xl font-bold mb-2">How to Check Your Work</h4>
-                  <p className="text-gray-300">Simple 3-step process for students</p>
-                </div>
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-3 p-3 bg-white/5 rounded-lg">
-                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">1</div>
-                    <span className="text-gray-300">Upload your project file (ZIP, PDF, or code)</span>
-                  </div>
-                  <div className="flex items-center space-x-3 p-3 bg-white/5 rounded-lg">
-                    <div className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold text-sm">2</div>
-                    <span className="text-gray-300">AI scans for plagiarism and similarity</span>
-                  </div>
-                  <div className="flex items-center space-x-3 p-3 bg-white/5 rounded-lg">
-                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm">3</div>
-                    <span className="text-gray-300">Get detailed report with improvement tips</span>
-                  </div>
-                </div>
-                <div className="mt-6 pt-4 border-t border-white/10">
-                  <div className="text-center">
-                    <p className="text-gray-400 text-sm mb-3">Ready to check your work?</p>
-                    <button
-                      onClick={handleStartTrial}
-                      className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg font-medium hover:from-purple-600 hover:to-pink-700 transition-all duration-300"
-                    >
-                      Start Student Trial
-                    </button>
-                  </div>
-                </div>
-              </div>
+                             <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl p-6 border border-purple-500/30">
+                 <div className="text-center mb-4">
+                   <BookOpen className="w-12 h-12 text-purple-400 mx-auto mb-3" />
+                   <h4 className="text-xl font-bold mb-2">How to Check Your Work</h4>
+                   <p className="text-gray-300 text-sm">Simple 3-step process for students</p>
+                 </div>
+                 <div className="space-y-3">
+                   <div className="flex items-center space-x-3 p-2 bg-white/5 rounded-lg">
+                     <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-xs">1</div>
+                     <span className="text-gray-300 text-sm">Upload your project file (ZIP, PDF, or code)</span>
+                   </div>
+                   <div className="flex items-center space-x-3 p-2 bg-white/5 rounded-lg">
+                     <div className="w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xs">2</div>
+                     <span className="text-gray-300 text-sm">AI scans for plagiarism and similarity</span>
+                   </div>
+                   <div className="flex items-center space-x-3 p-2 bg-white/5 rounded-lg">
+                     <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-xs">3</div>
+                     <span className="text-gray-300 text-sm">Get detailed report with improvement tips</span>
+                   </div>
+                 </div>
+                 <div className="mt-4 pt-3 border-t border-white/10">
+                   <div className="text-center">
+                     <p className="text-gray-400 text-xs mb-2">Ready to check your work?</p>
+                     <button
+                       onClick={handleStartTrial}
+                       className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg font-medium hover:from-purple-600 hover:to-pink-700 transition-all duration-300 text-sm"
+                     >
+                       Start Student Trial
+                     </button>
+                   </div>
+                 </div>
+               </div>
             </motion.div>
 
             <motion.div
@@ -615,44 +624,44 @@ const Landing = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-3xl font-bold mb-6">Why Choose Student Account?</h3>
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Check className="w-6 h-6 text-purple-400" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-2">Pre-Submission Check</h4>
-                    <p className="text-gray-400">Verify your work is original before submitting to avoid academic issues and maintain your integrity.</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-pink-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <BookOpen className="w-6 h-6 text-pink-400" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-2">Learning Resources</h4>
-                    <p className="text-gray-400">Access tutorials, best practices, and coding guidelines to improve your skills and avoid plagiarism.</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <BarChart3 className="w-6 h-6 text-cyan-400" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-2">Progress Tracking</h4>
-                    <p className="text-gray-400">Monitor your improvement over time with detailed analytics and personalized feedback.</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Zap className="w-6 h-6 text-green-400" />
-                  </div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-2">Instant Results</h4>
-                    <p className="text-gray-400">Get plagiarism analysis results in seconds, not hours. Perfect for last-minute checks before deadlines.</p>
-                  </div>
-                </div>
+                             <h3 className="text-2xl font-bold mb-4">Why Choose Student Account?</h3>
+               <div className="space-y-4">
+                                 <div className="flex items-start space-x-3">
+                   <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                     <Check className="w-5 h-5 text-purple-400" />
+                   </div>
+                   <div>
+                     <h4 className="text-lg font-semibold mb-1">Pre-Submission Check</h4>
+                     <p className="text-gray-400 text-sm">Verify your work is original before submitting to avoid academic issues.</p>
+                   </div>
+                 </div>
+                 {/* <div className="flex items-start space-x-3">
+                   <div className="w-10 h-10 bg-pink-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                     <BookOpen className="w-5 h-5 text-pink-400" />
+                   </div>
+                   <div>
+                     <h4 className="text-lg font-semibold mb-1">Learning Resources</h4>
+                     <p className="text-gray-400 text-sm">Access tutorials and best practices to improve your skills.</p>
+                   </div>
+                 </div> */}
+                 <div className="flex items-start space-x-3">
+                   <div className="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                     <BarChart3 className="w-5 h-5 text-cyan-400" />
+                   </div>
+                   <div>
+                     <h4 className="text-lg font-semibold mb-1">Progress Tracking</h4>
+                     <p className="text-gray-400 text-sm">Monitor your improvement over time with detailed analytics.</p>
+                   </div>
+                 </div>
+                 <div className="flex items-start space-x-3">
+                   <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                     <Zap className="w-5 h-5 text-green-400" />
+                   </div>
+                   <div>
+                     <h4 className="text-lg font-semibold mb-1">Instant Results</h4>
+                     <p className="text-gray-400 text-sm">Get analysis results in seconds, not hours.</p>
+                   </div>
+                 </div>
               </div>
             </motion.div>
           </div>
@@ -660,75 +669,82 @@ const Landing = () => {
       </section>
 
       {/* Contact Section */}
-      <section ref={contactRef} id="contact" className="relative z-10 py-20 px-6">
+      <section ref={contactRef} id="contact" className="relative z-10 pt-16 pb-8 px-6">
         <div className="max-w-6xl mx-auto">
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-6"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
               Get in{' '}
               <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
                 Touch
               </span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="text-base text-gray-300 max-w-2xl mx-auto">
               Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-              <div className="space-y-6">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-blue-400" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Email</h4>
-                    <p className="text-gray-400">hello@codenest.com</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                    <Phone className="w-6 h-6 text-purple-400" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Phone</h4>
-                    <p className="text-gray-400">+1 (555) 123-4567</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-cyan-400" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Address</h4>
-                    <p className="text-gray-400">123 Innovation Drive, Tech City, TC 12345</p>
-                  </div>
-                </div>
+                             <h3 className="text-xl font-bold mb-4">Contact Information</h3>
+               <div className="space-y-4">
+                                 <div className="flex items-center space-x-3">
+                   <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                     <Mail className="w-5 h-5 text-blue-400" />
+                   </div>
+                   <div>
+                     <h4 className="font-semibold text-sm">Email</h4>
+                     <p className="text-gray-400 text-sm">gajjarmahi40@gmail.com</p>
+                   </div>
+                 </div>
+                 <div className="flex items-center space-x-3">
+                   <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                     <Phone className="w-5 h-5 text-purple-400" />
+                   </div>
+                   <div>
+                     <h4 className="font-semibold text-sm">Phone</h4>
+                     <p className="text-gray-400 text-sm">+91 9054590252</p>
+                   </div>
+                 </div>
+                 <div className="flex items-center space-x-3">
+                   <div className="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center">
+                     <MapPin className="w-5 h-5 text-cyan-400" />
+                   </div>
+                   <div>
+                     <h4 className="font-semibold text-sm">Address</h4>
+                     <p className="text-gray-400 text-sm"> LJ Campus, LJ University Rd, off Sarkhej - Gandhinagar Highway, Makarba, Ahmedabad, Sarkhej-Okaf, Gujarat 382210</p>
+                   </div>
+                 </div>
               </div>
 
-              <div className="mt-8">
-                <h4 className="font-semibold mb-4">Follow Us</h4>
+              <div className="mt-6">
+                <h4 className="font-semibold mb-3 text-sm">Follow Us</h4>
                 <div className="flex space-x-4">
                   <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer">
-                    <span className="text-lg">ðŸ“˜</span>
+                    <span className="text-lg"><a href="https://twitter.com/codenest" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                                 <Twitter className="w-5 h-5" />
+                             </a>
+                             </span>
                   </div>
                   <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer">
-                    <span className="text-lg">ðŸ¦</span>
+                    <span className="text-lg"><a href="https://facebook.com/codenest" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                                 <Facebook className="w-5 h-5" />
+                             </a>
+                             </span>
                   </div>
                   <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer">
-                    <span className="text-lg">ðŸ’¼</span>
+                    <span className="text-lg"><a href="https://linkedin.com/company/codenest" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                    <Linkedin className="w-5 h-5" /></a></span>
                   </div>
                 </div>
               </div>
@@ -740,7 +756,7 @@ const Landing = () => {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <form className="space-y-6">
+              <form className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium mb-2">First Name</label>
@@ -797,7 +813,7 @@ const Landing = () => {
       </section>
 
       {/* Final CTA Section */}
-      <section className="relative z-10 py-20 px-6">
+      <section className="relative z-10 pt-16 pb-8 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -805,23 +821,23 @@ const Landing = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">
               Ready to{' '}
               <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
                 Transform
               </span>{' '}
               Your Workflow?
             </h2>
-            <p className="text-xl text-gray-300 mb-8">
+            <p className="text-base text-gray-300 mb-6">
               Join thousands of educators and students who trust CodeNest for academic integrity.
             </p>
             
-            <motion.button
-              onClick={handleStartTrial}
-              className="group px-10 py-5 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl text-xl font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/25"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
+                         <motion.button
+               onClick={handleStartTrial}
+               className="group px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl text-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/25"
+               whileHover={{ scale: 1.05, y: -2 }}
+               whileTap={{ scale: 0.95 }}
+             >
               <span className="flex items-center space-x-2">
                 <span>
                   {isAuthenticated 

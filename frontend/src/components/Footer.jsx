@@ -18,17 +18,17 @@ const Footer = () => {
                         <p className="text-gray-300 mb-4">
                             Advanced plagiarism detection powered by AI. Ensuring academic integrity for the future.
                         </p>
-                        <div className="flex space-x-4">
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                                <Twitter className="w-5 h-5" />
-                            </a>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                                <Facebook className="w-5 h-5" />
-                            </a>
-                            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                                <Linkedin className="w-5 h-5" />
-                            </a>
-                        </div>
+                                                 <div className="flex space-x-4">
+                             <a href="https://twitter.com/codenest" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                                 <Twitter className="w-5 h-5" />
+                             </a>
+                             <a href="https://facebook.com/codenest" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                                 <Facebook className="w-5 h-5" />
+                             </a>
+                             <a href="https://linkedin.com/company/codenest" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                                 <Linkedin className="w-5 h-5" />
+                             </a>
+                         </div>
                     </div>
 
                     {/* Product Links */}
@@ -36,7 +36,7 @@ const Footer = () => {
                         <h3 className="font-bold text-white mb-4">Product</h3>
                         <ul className="space-y-2">
                             <li><Link to="/features" className="text-gray-300 hover:text-white transition-colors">Features</Link></li>
-                            <li><Link to="/pricing" className="text-gray-300 hover:text-white transition-colors">Pricing</Link></li>
+                            
                             <li><Link to="/faculty-dashboard" className="text-gray-300 hover:text-white transition-colors">Faculty Dashboard</Link></li>
                             <li><Link to="/student-dashboard" className="text-gray-300 hover:text-white transition-colors">Student Dashboard</Link></li>
                         </ul>
@@ -61,15 +61,15 @@ const Footer = () => {
                         <ul className="space-y-3">
                             <li className="flex items-center text-gray-300">
                                 <Mail className="w-4 h-4 mr-2" />
-                                support@codenest.com
+                                gajjarmahi40@gmail.com
                             </li>
                             <li className="flex items-center text-gray-300">
                                 <Phone className="w-4 h-4 mr-2" />
-                                +1 (555) 123-4567
+                                +91 9054590252
                             </li>
                             <li className="flex items-start text-gray-300">
                                 <MapPin className="w-4 h-4 mr-2 mt-1 flex-shrink-0" />
-                                123 Innovation St, Tech Valley, CA 94000
+                                LJ Campus, LJ University Rd, off Sarkhej - Gandhinagar Highway, Makarba, Ahmedabad, Sarkhej-Okaf, Gujarat 382210
                             </li>
                         </ul>
                     </div>
