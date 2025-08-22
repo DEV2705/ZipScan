@@ -65,9 +65,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'role', 'first_name', 'last_name', 'is_email_verified']
         read_only_fields = ['id', 'username']
 
-# authentication/serializers.py (add these to your existing file)
 
-# authentication/serializers.py (update ForgotPasswordSerializer)
 
 class ForgotPasswordSerializer(serializers.Serializer):
     username = serializers.CharField()
