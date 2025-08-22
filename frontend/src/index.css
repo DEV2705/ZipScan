@@ -1,3 +1,8 @@
+/* Import Google Fonts first */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+/* Import Tailwind CSS */
 @import "tailwindcss";
 
 /* Smooth scrolling behavior */
@@ -5,35 +10,13 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom component styles using @layer */
-@layer components {
-  .btn-primary {
-    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200;
-  }
-
-  .btn-secondary {
-    @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition duration-200;
-  }
-
-  .card {
-    @apply bg-white rounded-lg shadow-md border border-gray-200 p-6;
-  }
-
-  .input-field {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
-  }
-
-  .table-header {
-    @apply bg-gray-50 text-gray-700 font-medium;
-  }
-
-  .table-row {
-    @apply border-b border-gray-200 hover:bg-gray-50;
-  }
-}
-
-/* Custom theme (optional) */
+/* Configure custom theme variables */
 @theme {
+  /* Font families */
+  --font-poppins: "Poppins", system-ui, sans-serif;
+  --font-grotesk: "Space Grotesk", system-ui, sans-serif;
+  
+  /* Custom colors */
   --color-primary-50: #eff6ff;
   --color-primary-100: #dbeafe;
   --color-primary-500: #3b82f6;
@@ -41,7 +24,78 @@ html {
   --color-primary-700: #1d4ed8;
 }
 
-/* Blob animation */
+/* Base layer for default element styling */
+@layer base {
+  body {
+    font-family: var(--font-poppins);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-grotesk);
+    font-weight: 600;
+  }
+}
+
+/* Custom component styles using @layer */
+@layer components {
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200 font-poppins;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition duration-200 font-grotesk;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-md border border-gray-200 p-6 font-poppins;
+  }
+
+  .card-title {
+    @apply font-grotesk font-bold text-xl mb-4 text-gray-900;
+  }
+
+  .input-field {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-poppins;
+  }
+
+  .table-header {
+    @apply bg-gray-50 text-gray-700 font-medium font-grotesk;
+  }
+
+  .table-row {
+    @apply border-b border-gray-200 hover:bg-gray-50 font-poppins;
+  }
+
+  /* Dashboard specific components */
+  .dashboard-header {
+    @apply font-grotesk text-3xl font-bold text-gray-900 mb-8;
+  }
+
+  .stat-card {
+    @apply bg-white rounded-xl shadow-lg border border-gray-100 p-6 font-poppins;
+  }
+
+  .stat-title {
+    @apply font-grotesk text-sm font-medium text-gray-600 uppercase tracking-wide;
+  }
+
+  .stat-value {
+    @apply font-poppins text-2xl font-bold text-gray-900 mt-2;
+  }
+}
+
+/* Utility layer for custom utilities */
+@layer utilities {
+  .font-display {
+    font-family: var(--font-grotesk);
+  }
+  
+  .font-body {
+    font-family: var(--font-poppins);
+  }
+}
+
+/* Keyframe animations */
 @keyframes blob {
   0% {
     transform: translate(0px, 0px) scale(1);
