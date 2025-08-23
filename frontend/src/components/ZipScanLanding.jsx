@@ -174,9 +174,9 @@ const Landing = () => {
               onClick={() => scrollToSection('hero')}
             >
               <div className="h-10 w-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                <span className="text-xl font-bold text-white">CN</span>
+                <span className="text-xl font-bold text-white">ZS</span>
               </div>
-              <span className="text-xl font-bold text-white">CodeNest</span>
+              <span className="text-xl font-bold text-white">ZipScan</span>
             </motion.div>
 
             {/* Navigation Links */}
@@ -314,7 +314,7 @@ const Landing = () => {
             {...fadeInUp}
             transition={{ ...fadeInUp.transition, delay: 0.5 }}
           >
-            CodeNest gives you the answers you didn't study for in every conversation,
+            ZipScan gives you the answers you didn't study for in every conversation,
             without you even having to ask. Advanced plagiarism detection for academic excellence.
           </motion.p>
 
@@ -401,7 +401,7 @@ const Landing = () => {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
               Why Choose{' '}
               <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                CodeNest?
+                ZipScan?
               </span>
             </h2>
             <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
@@ -704,7 +704,7 @@ const Landing = () => {
                    </div>
                    <div>
                      <h4 className="font-semibold text-sm">Email</h4>
-                     <p className="text-gray-400 text-sm">gajjarmahi40@gmail.com</p>
+                     <p className="text-gray-400 text-sm">devshah2707@gmail.com</p>
                    </div>
                  </div>
                  <div className="flex items-center space-x-3">
@@ -713,7 +713,7 @@ const Landing = () => {
                    </div>
                    <div>
                      <h4 className="font-semibold text-sm">Phone</h4>
-                     <p className="text-gray-400 text-sm">+91 9054590252</p>
+                     <p className="text-gray-400 text-sm">+91 8799549290</p>
                    </div>
                  </div>
                  <div className="flex items-center space-x-3">
@@ -731,19 +731,19 @@ const Landing = () => {
                 <h4 className="font-semibold mb-3 text-sm">Follow Us</h4>
                 <div className="flex space-x-4">
                   <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer">
-                    <span className="text-lg"><a href="https://twitter.com/codenest" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                    <span className="text-lg"><a href="https://twitter.com/ZipScan" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                                  <Twitter className="w-5 h-5" />
                              </a>
                              </span>
                   </div>
                   <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer">
-                    <span className="text-lg"><a href="https://facebook.com/codenest" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                    <span className="text-lg"><a href="https://facebook.com/ZipScan" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                                  <Facebook className="w-5 h-5" />
                              </a>
                              </span>
                   </div>
                   <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer">
-                    <span className="text-lg"><a href="https://linkedin.com/company/codenest" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                    <span className="text-lg"><a href="https://linkedin.com/company/ZipScan" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                     <Linkedin className="w-5 h-5" /></a></span>
                   </div>
                 </div>
@@ -829,7 +829,7 @@ const Landing = () => {
               Your Workflow?
             </h2>
             <p className="text-base text-gray-300 mb-6">
-              Join thousands of educators and students who trust CodeNest for academic integrity.
+              Join thousands of educators and students who trust ZipScan for academic integrity.
             </p>
             
                          <motion.button

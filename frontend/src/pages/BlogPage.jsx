@@ -187,8 +187,8 @@ const BlogPage = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
         <motion.div {...fadeInUp} className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">CodeNest <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">Blog</span></h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">Latest insights, updates, and best practices from the CodeNest community</p>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">ZipScan <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">Blog</span></h1>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">Latest insights, updates, and best practices from the ZipScan community</p>
           {isAuthenticated && (
             <motion.button onClick={() => setShowCreateForm(true)} className="mt-8 px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition duration-200 flex items-center mx-auto space-x-2" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Plus className="w-5 h-5" />

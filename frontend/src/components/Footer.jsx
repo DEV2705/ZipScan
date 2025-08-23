@@ -13,19 +13,19 @@ const Footer = () => {
                             <div className="h-10 w-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
                                 <span className="text-xl font-bold text-white">CN</span>
                             </div>
-                            <span className="text-xl font-bold text-white">CodeNest</span>
+                            <span className="text-xl font-bold text-white">ZipScan</span>
                         </div>
                         <p className="text-gray-300 mb-4">
                             Advanced plagiarism detection powered by AI. Ensuring academic integrity for the future.
                         </p>
                                                  <div className="flex space-x-4">
-                             <a href="https://twitter.com/codenest" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                             <a href="https://twitter.com/ZipScan" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                                  <Twitter className="w-5 h-5" />
                              </a>
-                             <a href="https://facebook.com/codenest" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                             <a href="https://facebook.com/ZipScan" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                                  <Facebook className="w-5 h-5" />
                              </a>
-                             <a href="https://linkedin.com/company/codenest" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                             <a href="https://linkedin.com/company/ZipScan" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                                  <Linkedin className="w-5 h-5" />
                              </a>
                          </div>
@@ -61,11 +61,11 @@ const Footer = () => {
                         <ul className="space-y-3">
                             <li className="flex items-center text-gray-300">
                                 <Mail className="w-4 h-4 mr-2" />
-                                gajjarmahi40@gmail.com
+                                devshah2707@gmail.com
                             </li>
                             <li className="flex items-center text-gray-300">
                                 <Phone className="w-4 h-4 mr-2" />
-                                +91 9054590252
+                                +91 8799549290
                             </li>
                             <li className="flex items-start text-gray-300">
                                 <MapPin className="w-4 h-4 mr-2 mt-1 flex-shrink-0" />
@@ -77,7 +77,7 @@ const Footer = () => {
 
                 <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
                     <div className="text-gray-400 text-sm mb-4 md:mb-0">
-                        2025 CodeNest. All rights reserved.
+                        2025 ZipScan. All rights reserved.
                     </div>
                     <div className="flex space-x-6 text-sm">
                         <a href="#privacy" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>

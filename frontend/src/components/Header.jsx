@@ -30,9 +30,9 @@ const Header = () => {
           className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
         >
           <div className="h-10 w-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-            <span className="text-xl font-bold text-white">CN</span>
+            <span className="text-xl font-bold text-white">ZS</span>
           </div>
-          <span className="text-xl font-bold text-white">CodeNest</span>
+          <span className="text-xl font-bold text-white">ZipScan</span>
         </Link>
 
         {/* Navigation Links (Desktop) */}

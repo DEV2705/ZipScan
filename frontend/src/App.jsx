@@ -21,7 +21,7 @@ import AnalysisResultPage from './pages/AnalysisResultPage';
 import ProjectHistoryPage from './pages/ProjectHistoryPage';
 
 // Landing Page
-import Landing from './components/CodeNestLanding.jsx';
+import Landing from './components/ZipScanLanding.jsx';
 
 // Import your NEW pages
 import BlogPage from './pages/BlogPage';

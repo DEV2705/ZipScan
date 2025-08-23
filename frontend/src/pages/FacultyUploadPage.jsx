@@ -124,7 +124,7 @@ const FacultyUploadPage = () => {
               Analysis
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Upload student projects for similarity analysis using CodeNest's advanced ML algorithms
+              Upload student projects for similarity analysis using ZipScan's advanced ML algorithms
             </p>
           </div>
         </motion.div>

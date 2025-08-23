@@ -317,7 +317,7 @@ const StudentUploadPage = () => {
                   <div className="text-center py-8">
                     <Layers className="h-12 w-12 text-gray-600 mx-auto mb-3" />
                     <p className="text-gray-400 text-sm">No projects yet</p>
-                    <p className="text-gray-500 text-xs">Upload your first project to get started with CodeNest!</p>
+                    <p className="text-gray-500 text-xs">Upload your first project to get started with ZipScan!</p>
                   </div>
                 )}
 

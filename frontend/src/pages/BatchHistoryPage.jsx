@@ -104,7 +104,7 @@ const BatchHistoryPage = () => {
                   Faculty Dashboard
                 </div>
                 <h1 className="text-3xl font-bold text-white">Batch History</h1>
-                <p className="text-gray-300">View all your analyzed batches and CodeNest Results</p>
+                <p className="text-gray-300">View all your analyzed batches and ZipScan Results</p>
               </div>
             </div>
             
@@ -146,7 +146,7 @@ const BatchHistoryPage = () => {
             <p className="text-gray-400 mb-6">
               {searchTerm 
                 ? 'Try adjusting your search terms' 
-                : 'Upload your first batch to get started with CodeNest!'
+                : 'Upload your first batch to get started with ZipScan!'
               }
             </p>
             <button 
