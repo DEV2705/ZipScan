@@ -210,7 +210,7 @@ def verify_email(request, token):
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Link Expired - CodeNest</title>
+                <title>Link Expired - ZipScan</title>
                 <style>
                     body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f3f4f6; margin: 0; }
                     .container { max-width: 400px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
@@ -225,7 +225,7 @@ def verify_email(request, token):
                 <div class="container">
                     <div class="header">
                         <div class="logo">CN</div>
-                        <div class="title">CodeNest</div>
+                        <div class="title">ZipScan</div>
                     </div>
                     <div class="error">⚠️ Link Expired</div>
                     <p>This verification link has expired. Please request a new verification email.</p>
@@ -249,7 +249,7 @@ def verify_email(request, token):
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Email Verified - CodeNest</title>
+            <title>Email Verified - ZipScan</title>
             <style>
                 body {{ 
                     font-family: Arial, sans-serif; 
@@ -314,12 +314,12 @@ def verify_email(request, token):
             <div class="container">
                 <div class="header">
                     <div class="logo">CN</div>
-                    <div class="title">CodeNest</div>
+                    <div class="title">ZipScan</div>
                 </div>
                 <div class="success">✅ Email Verified!</div>
                 <p><strong>{user.first_name or user.username}</strong></p>
                 <p>Your email has been verified successfully!</p>
-                <p>You can now access all features of CodeNest.</p>
+                <p>You can now access all features of ZipScan.</p>
                 <div>
                     <a href="http://192.168.0.107:5173/login" class="button">Login</a>
                     <a href="http://192.168.0.107:5173/profile" class="button">Profile</a>
@@ -339,7 +339,7 @@ def verify_email(request, token):
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Invalid Link - CodeNest</title>
+            <title>Invalid Link - ZipScan</title>
             <style>
                 body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f3f4f6; margin: 0; }
                 .container { max-width: 400px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
@@ -354,7 +354,7 @@ def verify_email(request, token):
             <div class="container">
                 <div class="header">
                     <div class="logo">CN</div>
-                    <div class="title">CodeNest</div>
+                    <div class="title">ZipScan</div>
                 </div>
                 <div class="error">❌ Invalid Link</div>
                 <p>This verification link is invalid or has already been used.</p>
@@ -371,7 +371,7 @@ def verify_email(request, token):
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Error - CodeNest</title>
+            <title>Error - ZipScan</title>
             <style>
                 body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f3f4f6; margin: 0; }
                 .container { max-width: 400px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
@@ -386,7 +386,7 @@ def verify_email(request, token):
             <div class="container">
                 <div class="header">
                     <div class="logo">CN</div>
-                    <div class="title">CodeNest</div>
+                    <div class="title">ZipScan</div>
                 </div>
                 <div class="error">⚠️ Error</div>
                 <p>Verification failed. Please try again or contact support.</p>
