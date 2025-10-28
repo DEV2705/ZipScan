@@ -197,13 +197,9 @@ Contributions are welcome! Please:
 
 👨‍💻 Author
 
-- Your Name
-- GitHub: @yourusername
-- Email: your.email@example.com
+- Shah Dev
+- GitHub: DEV2705
+- Email: devshah2707@gmail.com  
 
-📞 Contact & Support
-
-- Issues: open a ticket on the repository issue tracker
-- General inquiries: support@zipscan.app (replace with your address)
 
 Built with ❤️ to help educators and students analyze code fairly and efficiently.
