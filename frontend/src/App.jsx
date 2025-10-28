@@ -33,7 +33,7 @@ const AppRoutes = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {<Header />}
+      <Header />
 
       <main className="flex-1">
         <Routes>
@@ -54,7 +54,7 @@ const AppRoutes = () => {
               : <Register />
           } />
 
-          {/* Faculty Routes - New Enhanced Workflow */}
+          {/* Faculty Routes */}
           <Route path="/faculty" element={
             <ProtectedRoute requiredRole="faculty">
               <Navigate to="/faculty/upload" replace />
@@ -84,7 +84,7 @@ const AppRoutes = () => {
             </ProtectedRoute>
           } />
 
-          {/* Student Routes - New Enhanced Workflow */}
+          {/* Student Routes  */}
           <Route path="/student" element={
             <ProtectedRoute requiredRole="student">
               <Navigate to="/student/upload" replace />

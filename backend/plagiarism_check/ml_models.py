@@ -7,7 +7,6 @@ from sklearn.metrics import classification_report, accuracy_score
 import os
 
 def generate_dummy_training_data(n_samples=1000):
-    """Generate dummy training data for demonstration"""
     np.random.seed(42)
     
     # Generate features
@@ -50,49 +49,9 @@ def generate_dummy_training_data(n_samples=1000):
     
     return data
 
-# def train_plagiarism_model(save_path='ml_models/plagiarism_model.pkl'):
-#     """Train and save the plagiarism detection model"""
-#     print("Generating training data...")
-#     data = generate_dummy_training_data()
-    
-#     # Prepare features and labels
-#     feature_columns = ['tfidf_similarity', 'hash_similarity', 'import_similarity', 
-#                       'structure_difference', 'keyword_similarity']
-#     X = data[feature_columns]
-#     y = data['is_plagiarized']
-    
-#     # Split data
-#     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    
-#     # Train model
-#     print("Training Random Forest model...")
-#     model = RandomForestClassifier(
-#         n_estimators=100,
-#         random_state=42,
-#         max_depth=10,
-#         min_samples_split=5,
-#         min_samples_leaf=2
-#     )
-    
-#     model.fit(X_train, y_train)
-    
-#     # Evaluate model
-#     y_pred = model.predict(X_test)
-#     accuracy = accuracy_score(y_test, y_pred)
-#     print(f"Model accuracy: {accuracy:.4f}")
-#     print("\nClassification Report:")
-#     print(classification_report(y_test, y_pred))
-    
-#     # Save model
-#     os.makedirs(os.path.dirname(save_path), exist_ok=True)
-#     joblib.dump(model, save_path)
-#     print(f"Model saved to {save_path}")
-    
-#     return model
 
 
-
-# Update your train_plagiarism_model function in ml_models.py
+# train_plagiarism_model function in ml_models.py
 def train_plagiarism_model(save_path='ml_models/plagiarism_model.pkl'):
     """Train and save the plagiarism detection model"""
     print("Generating training data...")

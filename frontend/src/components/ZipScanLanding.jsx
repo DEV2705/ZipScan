@@ -303,10 +303,10 @@ const Landing = () => {
           >
             It's like{' '}
             <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
-              Googling
+              Academic 
             </span>
             <br />
-            <span className="text-gray-300">Mid-Sentence</span>
+            <span className="text-gray-300">Integrity on Autopilot</span>
           </motion.h1>
 
           <motion.p
@@ -314,8 +314,7 @@ const Landing = () => {
             {...fadeInUp}
             transition={{ ...fadeInUp.transition, delay: 0.5 }}
           >
-            ZipScan gives you the answers you didn't study for in every conversation,
-            without you even having to ask. Advanced plagiarism detection for academic excellence.
+            ZipScan transforms code submissions into actionable insights you never knew you needed. ML-powered plagiarism detection and technology stack analysis for modern educational institutions.
           </motion.p>
 
           {/* CTA Buttons */}

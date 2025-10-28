@@ -1,0 +1,96 @@
+# ---- Universal Git Ignore for ZipScan (Python/Django + Node/Vite) ----
+
+# --- OS files ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- IDE/editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Environment variables ---
+.env
+.env.*
+!.env.example
+
+# --- Logs & coverage ---
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.coverage
+coverage/
+htmlcov/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+
+# Packaging/build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Type checkers / tooling caches
+.mypy_cache/
+.pytest_cache/
+.pyre/
+.ruff_cache/
+.tox/
+
+# --- Django ---
+local_settings.py
+db.sqlite3
+*.sqlite3
+
+# Collected/static/runtime artifacts (keep your source static files tracked)
+staticfiles/
+static_root/
+tmp/
+temp/
+
+# Media/uploads (runtime data)
+media/
+!media/.gitkeep
+
+# --- Project-specific (backend) ---
+backend/db.sqlite3
+backend/temp/
+backend/tmp/
+backend/staticfiles/
+backend/static_root/
+backend/media/
+!backend/media/.gitkeep
+backend/venv/
+
+# --- Node / Frontend (Vite/React) ---
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+.cache/
+.parcel-cache/
+.turbo/
+.next/
+.vite/
+
+# Diagnostic caches
+.eslintcache
+
+

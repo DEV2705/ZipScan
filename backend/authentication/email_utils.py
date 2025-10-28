@@ -22,20 +22,20 @@ def send_verification_email(user, request):
     verification_url = f"http://192.168.0.107:8000/api/auth/verify-email/{token}/"
     
     # Email content
-    subject = 'Verify Your Email - CodeNest'
+    subject = 'Verify Your Email - ZipScan'
     message = f"""
     Hi {user.first_name or user.username},
 
-    Welcome to CodeNest! Please verify your email address by clicking the link below:
+    Welcome to ZipScan! Please verify your email address by clicking the link below:
 
     {verification_url}
 
     This link will expire in 24 hours for security reasons.
 
-    If you didn't create an account with CodeNest, please ignore this email.
+    If you didn't create an account with ZipScan, please ignore this email.
 
     Best regards,
-    The CodeNest Team
+    The ZipScan Team
     """
     
     html_message = f"""
@@ -43,7 +43,7 @@ def send_verification_email(user, request):
     <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
         <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
             <div style="text-align: center; margin-bottom: 30px;">
-                <h1 style="color: #6366f1;">CodeNest</h1>
+                <h1 style="color: #6366f1;">ZipScan</h1>
                 <p style="color: #666;">AI-Powered Code Analysis Platform</p>
             </div>
             
@@ -51,7 +51,7 @@ def send_verification_email(user, request):
             
             <p>Hi {user.first_name or user.username},</p>
             
-            <p>Welcome to CodeNest! Please verify your email address to complete your registration.</p>
+            <p>Welcome to ZipScan! Please verify your email address to complete your registration.</p>
             
             <div style="text-align: center; margin: 30px 0;">
                 <a href="{verification_url}" 
@@ -67,10 +67,10 @@ def send_verification_email(user, request):
             <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;">
             
             <p><small>This link will expire in 24 hours for security reasons.</small></p>
-            <p><small>If you didn't create an account with CodeNest, please ignore this email.</small></p>
+            <p><small>If you didn't create an account with ZipScan, please ignore this email.</small></p>
             
             <div style="text-align: center; margin-top: 30px; color: #666;">
-                <p>Best regards,<br>The CodeNest Team</p>
+                <p>Best regards,<br>The ZipScan Team</p>
             </div>
         </div>
     </body>
@@ -96,12 +96,12 @@ def send_verification_email(user, request):
 
 def send_reset_code_email(email, reset_code):
     """Send password reset code email"""
-    subject = 'CodeNest - Password Reset Code'
+    subject = 'ZipScan - Password Reset Code'
     
     message = f"""
 Hi,
 
-You requested to reset your password for your CodeNest account.
+You requested to reset your password for your ZipScan account.
 
 Your password reset code is: {reset_code}
 
@@ -110,16 +110,16 @@ This code will expire in 15 minutes for security reasons.
 If you didn't request this password reset, please ignore this email.
 
 Best regards,
-The CodeNest Team
+The ZipScan Team
     """
     
     html_message = f"""
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #3b82f6;">CodeNest - Password Reset</h2>
+        <h2 style="color: #3b82f6;">ZipScan - Password Reset</h2>
         
         <p>Hi,</p>
         
-        <p>You requested to reset your password for your CodeNest account.</p>
+        <p>You requested to reset your password for your ZipScan account.</p>
         
         <div style="background-color: #f3f4f6; padding: 20px; text-align: center; margin: 20px 0;">
             <h1 style="color: #1f2937; font-size: 32px; letter-spacing: 8px; margin: 0;">
@@ -133,7 +133,7 @@ The CodeNest Team
         <p>If you didn't request this password reset, please ignore this email.</p>
         
         <p>Best regards,<br>
-        The CodeNest Team</p>
+        The ZipScan Team</p>
     </div>
     """
     
